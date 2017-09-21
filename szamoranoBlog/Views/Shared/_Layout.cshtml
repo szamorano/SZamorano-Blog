@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+
+    @Scripts.Render("~/bundles/modernizr")
+
+    <!-- Bootstrap core CSS -->
+    <link href="~/Assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="~/Assets/css/style.css" rel="stylesheet" />
+</head>
+<body>
+    <!---header---->
+    <div class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html"><img src="~/Assets/images/logo.jpg" title="" /></a>
+            </div>
+            <!---start-top-nav---->
+            <div class="top-menu">
+                <div class="search">
+                    <form>
+                        <input type="text" placeholder="" required="">
+                        <input type="submit" value="" />
+                    </form>
+                </div>
+                <span class="menu"> </span>
+                <ul>
+                    <li class="active">@Html.ActionLink("HOME", "Index", "Home")</li>
+                    <li>@Html.ActionLink("ABOUT", "About", "Home")</li>
+                    <li>@Html.ActionLink("CONTACT", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("POSTS", "Index", "Posts")</li>
+                    <li>@Html.Partial("_LoginPartial")</li>
+                    <div class="clearfix"> </div>
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+
+            <!---//End-top-nav---->
+        </div>
+    </div>
+    <!--/header-->
+
+
+
+
+    <div class="container">
+        @RenderBody()
+    </div>
+        
+
+    
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script>
+                    $("span.menu").click(function () {
+                        $(".top-menu ul").slideToggle("slow", function () {
+                        });
+                    });
+    </script>
+    @RenderSection("scripts", required: false)
+
+    <!---->
+    <div class="footer">
+        <div class="container">
+            <p>Copyright © 2017 Blog All rights reserved</p>
+        </div>
+    </div>
+
+
+</body>
+</html>

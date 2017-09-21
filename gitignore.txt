@@ -1,0 +1,4 @@
+private.config
+configuration.cs
+startup.auth.cs
+web.config
