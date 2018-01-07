@@ -125,3 +125,4 @@ C:\Users\User\Documents\Visual Studio 2017\Projects\szamoranoBlog\szamoranoBlog\
 C:\Users\User\Documents\Visual Studio 2017\Projects\szamoranoBlog\szamoranoBlog\bin\SgmlReaderDll.dll
 C:\Users\User\Documents\Visual Studio 2017\Projects\szamoranoBlog\szamoranoBlog\bin\Thrift.dll
 C:\Users\User\Documents\Visual Studio 2017\Projects\szamoranoBlog\szamoranoBlog\bin\CsQuery.xml
+C:\Users\User\documents\visual studio 2017\Projects\szamoranoBlog\szamoranoBlog\obj\Debug\szamoranoBlog.csproj.CoreCompileInputs.cache
