@@ -5,6 +5,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
+using Owin.Security.Providers.LinkedIn;
 using szamoranoBlog.Models;
 
 namespace szamoranoBlog
@@ -54,15 +55,17 @@ namespace szamoranoBlog
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "585544941777424",
+               appSecret: "1ae485238ff93467b9102a1f04da2a08");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "896547765519-a44c5krnbnkl2fivpc0fg4b2tftu1nir.apps.googleusercontent.com",
+                ClientSecret = "G6PKM-bEcu94JwNooKJAgp1X"
+            });
+
+            app.UseLinkedInAuthentication("77sp7bpiqyiamd", "czlfcVqeHsXT9Cje");
         }
     }
 }

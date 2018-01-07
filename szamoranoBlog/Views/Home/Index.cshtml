@@ -13,81 +13,45 @@
 
 
 
-<div class="content">
-    <div class="container">
-        <div class="content-grids">
-            <div class="col-md-8 content-main">
-                <div class="content-grid">
+@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<szamoranoBlog.Models.Post>
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "Index";
+}
 
 
-                    <!-- Page Content -->
-                    <div class="content-grid-info">
-                        <img src="~/Assets/images/post1.jpg" alt="" />
-                        <div class="post-info">
-                            <h4><a href="single.html">Lorem ipsum dolor sit amet</a>  July 30, 2014 / 27 Comments</h4>
-                            <p>Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis.</p>
-                            <a href="single.html"><span></span>READ MORE</a>
-                        </div>
+
+
+
+            <h1 class="my-4">
+                BlogPosts
+                <small>Most Recent</small>
+            </h1>
+@foreach (var item in Model)
+{
+            <!-- Blog Post -->
+            <div class="card mb-4">
+                <a href="@Url.Action("Details", "Posts", new { Slug = item.Slug })">
+                    <img class="card-img-top" src="@Url.Content(item.MediaUrl)" alt="Card image cap"> </a>
+                    <div class="card-body">
+                        <h2 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h2>
+                        <p class="card-text">@Html.Raw(item.Body)</p>
+                        <a href="@Url.Action("Details", "Posts", new { Slug = item.Slug })" class="btn btn-primary">Read More &rarr;</a>
                     </div>
-                    <div class="content-grid-info">
-                        <img src="images/post2.jpg" alt="" />
-                        <div class="post-info">
-                            <h4><a href="single.html">Lorem ipsum dolor sit amet</a>  July 30, 2014 / 27 Comments</h4>
-                            <p>Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis.</p>
-                            <a href="single.html"><span></span>READ MORE</a>
-                        </div>
+                    <div class="card-footer text-muted">
+                        Posted on @Html.DisplayFor(modelItem => item.Created) by
+                        <a href="http://szamorano-portfolio.azurewebsites.net/" target="_blank">Steven Zamorano</a>
                     </div>
-                    <div class="content-grid-info">
-                        <img src="images/post3.jpg" alt="" />
-                        <div class="post-info">
-                            <h4><a href="single.html">Lorem ipsum dolor sit amet</a>  July 30, 2014 / 27 Comments</h4>
-                            <p>Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis.</p>
-                            <a href="single.html"><span></span>READ MORE</a>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-            <div class="col-md-4 content-right">
-                <div class="recent">
-                    <h3>RECENT POSTS</h3>
-                    <ul>
-                        <li><a href="#">Aliquam tincidunt mauris</a></li>
-                        <li><a href="#">Vestibulum auctor dapibus  lipsum</a></li>
-                        <li><a href="#">Nunc dignissim risus consecu</a></li>
-                        <li><a href="#">Cras ornare tristiqu</a></li>
-                    </ul>
-                </div>
-                <div class="comments">
-                    <h3>RECENT COMMENTS</h3>
-                    <ul>
-                        <li><a href="#">Amada Doe </a> on <a href="#">Hello World!</a></li>
-                        <li><a href="#">Peter Doe </a> on <a href="#"> Photography</a></li>
-                        <li><a href="#">Steve Roberts  </a> on <a href="#">HTML5/CSS3</a></li>
-                    </ul>
-                </div>
-                <div class="clearfix"></div>
-                <div class="archives">
-                    <h3>ARCHIVES</h3>
-                    <ul>
-                        <li><a href="#">October 2013</a></li>
-                        <li><a href="#">September 2013</a></li>
-                        <li><a href="#">August 2013</a></li>
-                        <li><a href="#">July 2013</a></li>
-                    </ul>
-                </div>
-                <div class="categories">
-                    <h3>CATEGORIES</h3>
-                    <ul>
-                        <li><a href="#">Vivamus vestibulum nulla</a></li>
-                        <li><a href="#">Integer vitae libero ac risus e</a></li>
-                        <li><a href="#">Vestibulum commo</a></li>
-                        <li><a href="#">Cras iaculis ultricies</a></li>
-                    </ul>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-        </div>
-    </div>
 </div>
+
+}
+
+
+
+            
+
+
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchStr = ViewBag.Search }))

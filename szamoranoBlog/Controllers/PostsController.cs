@@ -53,7 +53,7 @@ namespace szamoranoBlog.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Post post = db.Posts.FirstOrDefault(p => p.Slug == Slug);
+            Post post = db.Posts.Include(p => p.Comments).FirstOrDefault(p => p.Slug == Slug);
             if (post == null)
             {
                 return HttpNotFound();
@@ -96,7 +96,7 @@ namespace szamoranoBlog.Controllers
                 }
 
                 var filePath = "/assets/myImages/";
-                var absPath = Server.MapPath("~" + filePath);
+                var absPath = Server.MapPath("~" + filePath); // ~/TicketAttachments/
                 post.MediaUrl = filePath + image.FileName;
                 image.SaveAs(Path.Combine(absPath, image.FileName));
                 post.Slug = Slug;
@@ -163,7 +163,7 @@ namespace szamoranoBlog.Controllers
             Post post = db.Posts.Find(id);
             db.Posts.Remove(post);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
 
         protected override void Dispose(bool disposing)

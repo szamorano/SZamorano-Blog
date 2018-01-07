@@ -5,6 +5,26 @@
  */
 
 /*! normalize.css v3.0.0 | MIT License | git.io/normalize */
+
+
+
+.text-white {
+    color: #fff !important;
+}
+
+.m-0 {
+    margin: 0 !important;
+}
+
+.bg-dark {
+    background-color: #343a40 !important;
+}
+
+.py-5 {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+}
+
 html {
   font-family: sans-serif;
   -webkit-text-size-adjust: 100%;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -7,16 +8,23 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using szamoranoBlog.Models;
+using PagedList.Mvc;
 
 namespace szamoranoBlog.Controllers
 {
     [RequireHttps]
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+        public ActionResult Index(int? page)
         {
-            return View();
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            return View(db.Posts.OrderByDescending(p => p.Created).ToPagedList(pageNumber, pageSize));
         }
+
+
 
         public ActionResult About()
         {
@@ -44,10 +52,12 @@ namespace szamoranoBlog.Controllers
                     var body = "<p>Email From: <bold>{0}</bold>({1})</p><p>Message:</p><p>{2}</p>";
                     var from = "MyPortfolio<Example@email.com>";
                     //model.Body = "This is a message from your portfolio site. The name and the email of the contacting person is above.";
-
+                    //var assignedUser = db.Users.Find(ticket.AssignedUserId);
+                    //var emailTo = assignedUser.Email;
 
                     var email = new MailMessage(from,
                             ConfigurationManager.AppSettings["emailto"])
+                   
                 {
                     Subject = "Portfolio Contact Email",
                     Body = string.Format(body, model.FromName, model.FromEmail,

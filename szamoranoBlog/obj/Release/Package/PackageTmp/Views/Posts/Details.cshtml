@@ -1,74 +1,104 @@
 ﻿@model szamoranoBlog.Models.Post
-
+<link href="~/Assets/css/bootstrap-posts-css.css" rel="stylesheet" />
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<!-- Page Content -->
+<div class="container">
 
-<div>
-    <h4>Post</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+    <div class="row">
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+        <!-- Post Content Column -->
+        <div class="col-lg-12">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Body)
-        </dt>
+            <!-- Title -->
+            <h1 class="mt-4">@Html.DisplayFor(model => model.Title)</h1>
 
-        <dd>
-            @Html.DisplayFor(model => model.Body)
-        </dd>
+            <!-- Author -->
+            <p class="lead">
+                by
+                <a href="http://szamorano-portfolio.azurewebsites.net/" target="_blank">Steven Zamorano</a>
+            </p>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
+            <hr>
 
-        <dd>
-            @Html.DisplayFor(model => model.Created)
-        </dd>
+            <!-- Date/Time -->
+            <p>Posted on @Html.DisplayFor(model => model.Created)</p>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Updated)
-        </dt>
+            <hr>
 
-        <dd>
-            @Html.DisplayFor(model => model.Updated)
-        </dd>
+            <!-- Preview Image -->
+            <img class="img-fluid rounded" src="@Model.MediaUrl" alt="Post Details Photo">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.MediaUrl)
-        </dt>
+            <hr>
 
-        <dd>
-            <img src="@Model.MediaUrl" />
-        </dd>
+            <!-- Post Content -->
+            <p class="lead">@Html.Raw(Model.Body)</p>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Published)
-        </dt>
+            
 
-        <dd>
-            @Html.DisplayFor(model => model.Published)
-        </dd>
+            <hr>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Slug)
-        </dt>
+            <!-- Comments Form -->
+            <div class="card my-4">
+                <h5 class="card-header">Leave a Comment:</h5>
+                <div class="card-body">
+                    @using (Html.BeginForm("Create", "Comments"))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-group">
+                            <textarea class="form-control" name="Body" rows="7" required></textarea>
+                            <input type="number" name="BlogPostId" value="@Model.Id" hidden />
+                            @*<input type="text" name="Body" rows="7" required />*@
+                        </div>
+                        <button type="submit" class="btn btn-primary" value="Send">Submit</button>
+                    }
+                </div>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Slug)
-        </dd>
+            <!-- Single Comment -->
+@foreach (var comment in Model.Comments)
+{
+    if (comment != null && comment.AuthorId != null)
+    {
+            <div class="media mb-4">
+                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                <div class="media-body">
+                    <h5 class="mt-0">@comment.Author.FullName</h5>@*<span>Posted on @comment.Created</span>*@
+                    <p>@comment.Body</p>
+                </div>
+            </div>
+    }
+}
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+
+        @*@using (Html.BeginForm("Create", "Comments"))
+        {
+            @Html.AntiForgeryToken()
+            <h3>Comments</h3>
+            <input type="number" name="BlogPostId" value="@Model.Id" hidden />
+            <input type="text" name="Body" rows="7" required />
+            <input class="btn btn-warning" type="submit" value="Send" />
+        }
+
+        @foreach (var comment in Model.Comments)
+        {
+            if (comment != null && comment.AuthorId != null)
+            {
+                <p>@comment.Body - @comment.Author.FullName on @comment.Created</p>
+            }
+        }*@

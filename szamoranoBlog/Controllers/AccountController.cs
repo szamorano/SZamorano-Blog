@@ -23,7 +23,7 @@ namespace szamoranoBlog.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -238,7 +238,7 @@ namespace szamoranoBlog.Controllers
             return code == null ? View("Error") : View();
         }
 
-        //
+
         // POST: /Account/ResetPassword
         [HttpPost]
         [AllowAnonymous]

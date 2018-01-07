@@ -50,17 +50,28 @@ namespace szamoranoBlog.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,PostId,AuthorId,Body,Created,Updated,UpdateReason")] Comment comment)
+        public ActionResult Create([Bind(Include = "Id,BlogPostId,Body")] Comment comment)
         {
+            var userId = User.Identity.GetUserId();
+
             if (ModelState.IsValid)
             {
-                db.Comments.Add(comment);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (!String.IsNullOrWhiteSpace(userId))
+                {
+                    comment.Created = DateTime.Now;
+                    comment.AuthorId = User.Identity.GetUserId();
+                    db.Comments.Add(comment);
+                    db.SaveChanges();
+
+                    var post = db.Posts.Find(comment.BlogPostId);
+                    return RedirectToAction("Details", "Posts", new { Slug = post.Slug });
+                }
             }
+            return RedirectToAction("Index", "Posts");
+            
 
             ViewBag.AuthorId = new SelectList(db.ApplicationUsers, "Id", "FirstName", comment.AuthorId);
-            ViewBag.PostId = new SelectList(db.Posts, "Id", "Title", comment.PostId);
+            ViewBag.PostId = new SelectList(db.Posts, "Id", "Title", comment.BlogPostId);
             return View(comment);
         }
 
@@ -77,7 +88,7 @@ namespace szamoranoBlog.Controllers
                 return HttpNotFound();
             }
             ViewBag.AuthorId = new SelectList(db.ApplicationUsers, "Id", "FirstName", comment.AuthorId);
-            ViewBag.PostId = new SelectList(db.Posts, "Id", "Title", comment.PostId);
+            ViewBag.PostId = new SelectList(db.Posts, "Id", "Title", comment.BlogPostId);
             return View(comment);
         }
 
@@ -95,7 +106,7 @@ namespace szamoranoBlog.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.AuthorId = new SelectList(db.ApplicationUsers, "Id", "FirstName", comment.AuthorId);
-            ViewBag.PostId = new SelectList(db.Posts, "Id", "Title", comment.PostId);
+            ViewBag.PostId = new SelectList(db.Posts, "Id", "Title", comment.BlogPostId);
             return View(comment);
         }
 

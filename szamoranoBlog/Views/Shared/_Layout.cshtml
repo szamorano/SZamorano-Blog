@@ -11,34 +11,51 @@
     <link href="~/Assets/css/bootstrap.css" rel="stylesheet" />
     <!-- Custom styles for this template -->
     <link href="~/Assets/css/style.css" rel="stylesheet" />
+
+    <link href="~/Assets/css/bootstrap-posts-css.css" rel="stylesheet" />
 </head>
 <body>
+    
+
     <!---header---->
-    <div class="header">
+    <div class="header" style="border-bottom:solid; border-bottom-width:1px; color:lightgray">
         <div class="container">
             <div class="logo">
-                <a href="index.html"><img src="~/Assets/images/logo.jpg" title="" /></a>
+                <a href="@Url.Action("Index", "Home")"><img src="~/Assets/images/logo.jpg" title="Blog Logo" /></a>
             </div>
+
+
+
             <!---start-top-nav---->
             <div class="top-menu">
-                <div class="search">
-                    <form>
-                        <input type="text" placeholder="" required="">
-                        <input type="submit" value="" />
-                    </form>
-                </div>
+
+
+
+                @using (Html.BeginForm("Index", "Posts", FormMethod.Post))
+                { 
+                    <div>
+                        <input name="searchStr" type="text" placeholder="Search" value="@ViewBag.Search" />
+                        <button class="btn btn-primary" type="submit">Search</button>
+                    </div>
+                }
+
+
+
                 <span class="menu"> </span>
                 <ul>
                     <li class="active">@Html.ActionLink("HOME", "Index", "Home")</li>
                     <li>@Html.ActionLink("ABOUT", "About", "Home")</li>
                     <li>@Html.ActionLink("CONTACT", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("POSTS", "Index", "Posts")</li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                    <li>@Html.ActionLink("ADMIN", "Index", "Posts")</li>
+                    }
                     <li>@Html.Partial("_LoginPartial")</li>
-                    <div class="clearfix"> </div>
+
                 </ul>
             </div>
-            <div class="clearfix"></div>
 
+            <div class="clearfix"></div>
             <!---//End-top-nav---->
         </div>
     </div>
@@ -51,7 +68,13 @@
         @RenderBody()
     </div>
         
-
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; 2017 Blog All Rights Reserved</p>
+        </div>
+        <!-- /.container -->
+    </footer>
     
 
 
@@ -65,12 +88,8 @@
     </script>
     @RenderSection("scripts", required: false)
 
-    <!---->
-    <div class="footer">
-        <div class="container">
-            <p>Copyright © 2017 Blog All rights reserved</p>
-        </div>
-    </div>
+
+
 
 
 </body>
